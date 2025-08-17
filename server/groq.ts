@@ -1,14 +1,14 @@
 import OpenAI from "openai";
 
-// Initialize Grok client using xAI's API endpoint
-const grok = new OpenAI({
-  baseURL: "https://api.x.ai/v1",
-  apiKey: process.env.XAI_API_KEY || process.env.GROK_API_KEY || "",
+// Initialize Groq client using Groq's API endpoint
+const groq = new OpenAI({
+  baseURL: "https://api.groq.com/openai/v1",
+  apiKey: process.env.GROQ_API_KEY || "",
 });
 
 export async function generateSummary(transcript: string, customInstructions?: string): Promise<string> {
-  if (!process.env.XAI_API_KEY && !process.env.GROK_API_KEY) {
-    throw new Error("XAI_API_KEY environment variable is required");
+  if (!process.env.GROQ_API_KEY) {
+    throw new Error("GROQ_API_KEY environment variable is required");
   }
 
   if (!transcript.trim()) {
@@ -35,8 +35,8 @@ ${transcript}
 Please provide a comprehensive summary organized with appropriate headings and bullet points.`;
     }
 
-    const response = await grok.chat.completions.create({
-      model: "grok-2-1212",
+    const response = await groq.chat.completions.create({
+      model: "llama-3.1-70b-versatile",
       messages: [
         {
           role: "system",
@@ -65,7 +65,7 @@ Please provide a comprehensive summary organized with appropriate headings and b
     if (error instanceof Error) {
       // Handle specific API errors
       if (error.message.includes("401")) {
-        throw new Error("Invalid API key. Please check your XAI_API_KEY configuration.");
+        throw new Error("Invalid API key. Please check your GROQ_API_KEY configuration.");
       } else if (error.message.includes("429")) {
         throw new Error("Rate limit exceeded. Please try again in a moment.");
       } else if (error.message.includes("400")) {

@@ -1,14 +1,14 @@
-import type { Express } from "express";
+import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
-import multer from "multer";
+import multer, { FileFilterCallback } from "multer";
 import { storage } from "./storage";
 import { insertSummarySchema, updateSummarySchema } from "@shared/schema";
 import { z } from "zod";
-import { generateSummary } from "./grok";
+import { generateSummary } from "./groq";
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  fileFilter: (req, file, cb) => {
+  fileFilter: (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
     // Accept text files, Word docs, and PDFs
     const allowedTypes = ['text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf'];
     if (allowedTypes.includes(file.mimetype)) {
