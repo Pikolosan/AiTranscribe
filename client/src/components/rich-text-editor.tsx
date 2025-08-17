@@ -10,6 +10,51 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// Convert markdown-style text to HTML
+function convertMarkdownToHtml(text: string): string {
+  let html = text;
+  
+  // Convert headers
+  html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+  
+  // Convert bold text
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // Convert italic text
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  
+  // Convert bullet points (handle both - and * as bullets)
+  html = html.replace(/^[-*]\s+(.*)$/gm, '<li>$1</li>');
+  
+  // Convert numbered lists
+  html = html.replace(/^\d+\.\s+(.*)$/gm, '<li>$1</li>');
+  
+  // Wrap consecutive <li> elements in <ul> or <ol>
+  html = html.replace(/(<li>.*<\/li>)/g, (match) => {
+    // Check if it looks like a numbered list by looking at the original text
+    if (text.includes('1.') || text.includes('2.')) {
+      return '<ol>' + match + '</ol>';
+    }
+    return '<ul>' + match + '</ul>';
+  });
+  
+  // Convert line breaks to proper paragraphs
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+  
+  // Wrap in paragraph tags if not already wrapped
+  if (!html.includes('<p>') && !html.includes('<h1>') && !html.includes('<h2>') && !html.includes('<h3>')) {
+    html = '<p>' + html + '</p>';
+  }
+  
+  // Clean up any double paragraph tags
+  html = html.replace(/<\/p><p><\/p><p>/g, '</p><p>');
+  
+  return html;
+}
+
 interface RichTextEditorProps {
   initialContent: string;
   onUpdate: (content: string) => void;
@@ -22,8 +67,23 @@ export function RichTextEditor({ initialContent, onUpdate, isUpdating = false }:
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
   useEffect(() => {
-    setContent(initialContent);
-    updateWordCount(initialContent);
+    // Check if content looks like markdown (contains bullets, headers, etc.)
+    const looksLikeMarkdown = initialContent.includes('# ') || 
+                             initialContent.includes('## ') || 
+                             initialContent.includes('### ') || 
+                             initialContent.includes('- ') || 
+                             initialContent.includes('* ') ||
+                             /^\d+\.\s/.test(initialContent);
+    
+    if (looksLikeMarkdown && !initialContent.includes('<')) {
+      // Convert markdown to HTML
+      const htmlContent = convertMarkdownToHtml(initialContent);
+      setContent(htmlContent);
+      updateWordCount(htmlContent);
+    } else {
+      setContent(initialContent);
+      updateWordCount(initialContent);
+    }
   }, [initialContent]);
 
   const updateWordCount = (text: string) => {
