@@ -26,6 +26,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Upload and generate summary endpoint
   app.post("/api/summaries/generate", upload.single('transcript'), async (req, res) => {
     try {
+      console.log("Upload request received:");
+      console.log("- File:", req.file ? `${req.file.originalname} (${req.file.size} bytes)` : "none");
+      console.log("- Body:", req.body);
+      
       if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
       }
