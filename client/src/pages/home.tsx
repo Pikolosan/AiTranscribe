@@ -141,7 +141,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="ml-3">
-                <h1 className="text-xl font-semibold text-gray-900">AI Meeting Summarizer</h1>
+                <h1 className="text-xl font-semibold text-gray-900">AItranscribe</h1>
               </div>
             </div>
             <nav className="hidden md:flex space-x-8">

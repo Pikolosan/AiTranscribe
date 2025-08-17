@@ -1,8 +1,8 @@
-# Meeting Transcript Summarizer
+# AItranscribe
 
 ## Overview
 
-This is a full-stack web application that allows users to upload meeting transcripts and generate AI-powered summaries using Grok (xAI). The application provides a modern, user-friendly interface for processing text files, generating intelligent summaries with optional custom instructions, and editing the results with a rich text editor.
+AItranscribe is a full-stack web application that transforms meeting transcripts into actionable insights using AI-powered summarization. The application features a professional landing page and a comprehensive summarization tool that allows users to upload meeting transcripts and generate intelligent summaries using Groq AI. Users can provide custom instructions, edit results with a rich text editor, and extract key decisions and action items from their meetings.
 
 ## User Preferences
 
@@ -12,7 +12,9 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend Architecture
 - **Framework**: React 18 with TypeScript for type safety and modern development practices
-- **Routing**: Wouter for lightweight client-side routing
+- **Routing**: Wouter for lightweight client-side routing with two main routes:
+  - `/` - Landing page with marketing content and call-to-action
+  - `/app` - Main application interface for transcript summarization
 - **UI Framework**: shadcn/ui components built on Radix UI primitives for accessible, customizable components
 - **Styling**: Tailwind CSS with custom design tokens and CSS variables for theming
 - **State Management**: TanStack Query (React Query) for server state management and caching
@@ -73,8 +75,9 @@ Preferred communication style: Simple, everyday language.
 - **Drizzle ORM over Prisma**: Selected for better TypeScript integration, smaller bundle size, and more direct SQL control
 
 #### AI Integration
-- **Grok over OpenAI**: Chosen for potentially better meeting summarization capabilities and cost considerations
-- **OpenAI SDK compatibility**: Maintains familiar API patterns while using xAI's infrastructure
+- **Groq over alternatives**: Chosen for fast inference speed and cost-effective pricing for meeting summarization
+- **OpenAI SDK compatibility**: Maintains familiar API patterns while using Groq's infrastructure
+- **Llama 3.1 70B model**: Selected for its excellent text comprehension and summarization capabilities
 
 #### File Upload Strategy
 - **Memory storage over disk**: Simplifies deployment and scaling, suitable for the 10MB file size limit
