@@ -77,7 +77,7 @@ Preferred communication style: Simple, everyday language.
 #### AI Integration
 - **Groq over alternatives**: Chosen for fast inference speed and cost-effective pricing for meeting summarization
 - **OpenAI SDK compatibility**: Maintains familiar API patterns while using Groq's infrastructure
-- **Llama 3.1 70B model**: Selected for its excellent text comprehension and summarization capabilities
+- **Llama 3.3 70B model**: Selected for its excellent text comprehension and summarization capabilities (updated from 3.1 due to deprecation)
 
 #### File Upload Strategy
 - **Memory storage over disk**: Simplifies deployment and scaling, suitable for the 10MB file size limit
