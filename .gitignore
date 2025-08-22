@@ -1,6 +1,10 @@
-node_modules
-dist
+# Ignore environment variables
+.env
+
+# Optional: other common ignores
+node_modules/
+dist/
 .DS_Store
-server/public
-vite.config.ts.*
-*.tar.gz
+*.log
+# Ignore Replit agent and state files
+.local/

@@ -1,4 +1,6 @@
 import OpenAI from "openai";
+import dotenv from "dotenv";
+dotenv.config();
 
 // Initialize Groq client using Groq's API endpoint
 const groq = new OpenAI({
