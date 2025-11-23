@@ -39,7 +39,6 @@ export default function Landing() {
             <nav className="hidden md:flex space-x-8">
               <a href="#features" className="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">Features</a>
               <a href="#how-it-works" className="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">How it Works</a>
-              <a href="#pricing" className="text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium">Pricing</a>
             </nav>
             <div className="flex items-center space-x-4">
               <Link href="/app">
@@ -277,9 +276,7 @@ export default function Landing() {
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#features" className="hover:text-white">Features</a></li>
-                <li><a href="#how-it-works" className="hover:text-white">How it Works</a></li>
-                <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
-              </ul>
+                <li><a href="#how-it-works" className="hover:text-white">How it Works</a></li>              </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Company</h4>

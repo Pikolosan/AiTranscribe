@@ -1,10 +1,10 @@
 import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import multer, { FileFilterCallback } from "multer";
-import { storage } from "./storage";
-import { insertSummarySchema, updateSummarySchema } from "@shared/schema";
+import { storage } from "./storage.js";
+import { insertSummarySchema, updateSummarySchema } from "@shared/schema.js";
 import { z } from "zod";
-import { generateSummary } from "./groq";
+import { generateSummary } from "./groq.js";
 
 const upload = multer({
   storage: multer.memoryStorage(),
