@@ -1,6 +1,10 @@
 # Ignore environment variables
 .env
 
+replit.md
+.replit
+
+
 # Optional: other common ignores
 node_modules/
 dist/
@@ -8,6 +12,3 @@ dist/
 *.log
 # Ignore Replit agent and state files
 .local/
-
-replit.md
-.replit
