@@ -36,7 +36,9 @@ app.use((req, res, next) => {
   next();
 });
 
-(async () => {
+// Initialize routes and Vite/static setup. Expose a `ready` promise
+// so serverless handlers can await initialization before handling requests.
+const ready = (async () => {
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -47,25 +49,39 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // only setup vite in development and after setting up routes
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || '5000', 10);
-  const host = "localhost";
-  server.listen({
-    port,
-    host,
-  }, () => {
-    log(`serving on ${host}:${port}`);
-  });
+  return server;
 })();
+
+// Export a Vercel-compatible handler so this same file can be used
+// as a Serverless Function. Vercel will call this exported default.
+export default async function handler(req: unknown, res: unknown) {
+  await ready;
+  // Express `app` is a callable function `(req,res)`; forward the call.
+  return (app as any)(req as any, res as any);
+}
+
+// If not running on Vercel, start a local HTTP server for development.
+if (!process.env.VERCEL) {
+  (async () => {
+    const server = await ready;
+
+    // ALWAYS serve the app on the port specified in the environment variable PORT
+    // Default to 5000 if not specified.
+    const port = parseInt(process.env.PORT || '5000', 10);
+    const host = process.env.NODE_ENV === 'production' ? "0.0.0.0" : "localhost";
+    server.listen({
+      port,
+      host,
+      reusePort: process.env.NODE_ENV === 'production',
+    }, () => {
+      log(`serving on ${host}:${port}`);
+    });
+  })();
+}
