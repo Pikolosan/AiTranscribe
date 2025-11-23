@@ -91,3 +91,78 @@ Preferred communication style: Simple, everyday language.
 - **Tailwind over styled-components**: Utility-first approach for consistent design system and smaller bundle size
 - **CSS variables**: Enables dynamic theming and easy customization
 - **Component-based design**: Reusable UI components with consistent API patterns
+
+## Deployment Guide
+
+### Prerequisites for Deployment
+- Vercel account (free or paid)
+- GitHub repository (recommended)
+- Groq API key (get from [console.groq.com](https://console.groq.com))
+- Neon Database connection string (get from [console.neon.tech](https://console.neon.tech))
+
+### Deploying to Vercel
+
+1. **Push code to GitHub**
+   ```bash
+   git add .
+   git commit -m "Ready for Vercel deployment"
+   git push origin main
+   ```
+
+2. **Connect to Vercel**
+   - Go to [vercel.com](https://vercel.com) and sign up/log in
+   - Click "Add New" → "Project"
+   - Import your GitHub repository
+   - Select your project and click "Import"
+
+3. **Configure Environment Variables**
+   - In Vercel project settings, go to "Environment Variables"
+   - Add the following variables:
+     - `GROQ_API_KEY` - Your Groq API key
+     - `DATABASE_URL` - Your Neon Database connection string
+     - `NODE_ENV` - Set to `production`
+
+4. **Deploy**
+   - Vercel will automatically build and deploy when you push to main
+   - Your app will be available at `https://your-project.vercel.app`
+
+### Environment Setup
+Copy `.env.example` to `.env` and fill in your credentials:
+```bash
+cp .env.example .env
+```
+
+Update with your actual credentials:
+- `GROQ_API_KEY` - Get from [Groq Console](https://console.groq.com)
+- `DATABASE_URL` - Get from [Neon Console](https://console.neon.tech)
+
+### Build Process
+The deployment includes:
+- **Frontend Build**: Vite compiles React + TypeScript to static files
+- **Server Build**: esbuild bundles Node.js server code
+- **Output**: Files in `./dist` directory ready for production
+
+### Local Development
+```bash
+npm run dev
+```
+
+### Production Build (Local Testing)
+```bash
+npm run build
+npm start
+```
+
+### Troubleshooting
+
+**Build fails with module not found**
+- Ensure all imports use `.js` extensions in server files
+- Check that TypeScript paths are correctly configured
+
+**Database connection errors**
+- Verify `DATABASE_URL` is set in environment
+- Ensure Neon database is accessible from Vercel
+
+**API requests failing**
+- Check GROQ_API_KEY is set
+- Verify Groq API is operational at [console.groq.com](https://console.groq.com)

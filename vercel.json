@@ -1,12 +1,9 @@
 {
   "version": 2,
-  "builds": [
-  { "src": "dist/index.js", "use": "@vercel/node" }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "server/index.ts"
-    }
-  ]
+  "buildCommand": "npm run build",
+  "outputDirectory": "./dist",
+  "nodeVersion": "20.x",
+  "env": {
+    "NODE_ENV": "production"
+  }
 }

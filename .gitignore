@@ -8,3 +8,6 @@ dist/
 *.log
 # Ignore Replit agent and state files
 .local/
+
+replit.md
+.replit
